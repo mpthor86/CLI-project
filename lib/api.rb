@@ -1,5 +1,9 @@
 require_relative '../environment'
 class API
+    def self.start
+        self.category
+        self.region
+    end
     def self.category
         category_url = "https://www.themealdb.com/api/json/v1/1/list.php?c=list"
         category_uri = URI(category_url)
@@ -38,9 +42,12 @@ class API
         meals_uri = URI(meals_url)
         meals_response = Net::HTTP.get(meals_uri)
         meals_hash = JSON.parse(meals_response)
-        simple_hash = meals_hash["meals"].each do |key, obj|
-            hash = {"meal_categories" => "#{obj}"}
+
+        meals_hash["meals"].each do |hash|
+            hash.each do |key, value|
+            hash = {"meal_categories" => "#{value}"}
             Meals.new(hash)
+            end
         end
     end
 

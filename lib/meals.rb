@@ -1,7 +1,6 @@
 require_relative '../environment'
 
 class Meals
-    #attr_accessor :category, :region, :name, :instructions
     @@all = []
 
     def initialize(hash)
@@ -15,28 +14,36 @@ class Meals
         @@all
     end
     def self.categories
-        API.category
         self.all.select {|obj| obj.category}.each_with_index do |obj, index|
             puts "#{index +1}: #{obj.category}" 
         end
     end
     def self.by_category(number)
-        self.all.select {|obj| obj.category}.find {|index| index == number}
-            
-
-
+        #API.filter_by_category(number)
         self.all.select {|obj| obj.category}.each_with_index do |obj, index|
             if index == number
-                selection = "#{obj.category}"
-                API.filter_by_category(selection)
-                self.all.select {|obj| obj.meal_categories}.each_with_index do |obj, index|
-                    puts "#{index + 1}: #{obj.meal_categories}"
-                end
+            meal = "#{obj.category}"
+            API.filter_by_category(meal)
+            self.all.select {|obj| obj.meal_categories}.each_with_index do |obj, index|
+                puts "#{index + 1}: #{obj.meal_categories}"
             end
-        end
+           end
+       end
     end
+        binding.pry    
+
+
+    #    self.all.select {|obj| obj.category}.each_with_index do |obj, index|
+    #        if index == number
+    #            selection = "#{obj.category}"
+    #            API.filter_by_category(selection)
+    #            self.all.select {|obj| obj.meal_categories}.each_with_index do |obj, index|
+    #                puts "#{index + 1}: #{obj.meal_categories}"
+    #            end
+    #        end
+    #    end
+    #end
     def self.region
-        API.region
         self.all.select {|obj| obj.region}.each_with_index do |obj, index|
             puts "#{index +1}: #{obj.region}"
         end
@@ -49,6 +56,7 @@ class Meals
     #binding.pry
 end
 
+    #attr_accessor :category, :region, :name, :instructions
 
 #def initialize(category:, region:, name:, instructions:)
    #     @name = name
