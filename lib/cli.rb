@@ -1,10 +1,9 @@
-#require_relative '../environment'
-
 class CLI
     @@categories = ["Beef", "Pork", "Seafood", "Breakfast", "Dessert", "Vegan"]
     @@regions = ["American", "Chinese", "Egyptian", "Jamaican", "Mexican", "Italian"]
 
     def self.menu
+        puts "MAIN MENU"
         puts "Please choose a category below:"
         puts "1. Meals by Category"
         puts "2. Meals by Region"
@@ -12,16 +11,16 @@ class CLI
         puts "4. Exit"
         input = gets.strip
             if input == "1"
-                CLI.show_categories
+                self.show_categories
             elsif input == "2"
-                CLI.show_regions
+                self.show_regions
             elsif input == "3"
                 Meals.random
             elsif input == "4"
-                CLI.exit
+                self.exit
             else input != 1..4
-                CLI.wrong_answer
-                CLI.menu
+                self.wrong_answer
+                self.menu
         end
     end
     def self.categories
@@ -32,34 +31,32 @@ class CLI
     end
     def self.show_regions
         puts "Please choose a region to find a Meal."
-        CLI.regions.each_with_index {|region, index| puts"#{index + 1}: #{region}"}
+        self.regions.each_with_index {|region, index| puts"#{index + 1}: #{region}"}
         puts "7. Return to Main Menu"
         input = gets.strip
-        if input.to_i.between?(1, 6)
+        if input.to_i - 1 < self.regions.count
             region = self.regions[input.to_i - 1]
             Meals.by_region(region)
         elsif input == "7"
-            CLI.menu
-        else CLI.wrong_answer
-            CLI.show_regions
+            self.menu
+        else self.wrong_answer
+            self.show_regions
         end
     end
-
     def self.show_categories
         puts "Please choose a Meal category below:"
-        CLI.categories.each_with_index {|category, index| puts "#{index + 1}: #{category}"}
+        self.categories.each_with_index {|category, index| puts "#{index + 1}: #{category}"}
         puts "7. Return to Main Menu"
         input = gets.strip
-        if input.to_i.between?(1, 6)
+        if input.to_i - 1 < self.categories.count
         category = self.categories[input.to_i - 1]
         Meals.by_category(category)
         elsif input == "7"
-            CLI.menu
-        else CLI.wrong_answer
-            CLI.show_categories
+            self.menu
+        else self.wrong_answer
+            self.show_categories
         end
     end
-
     def self.exit
         puts "Thanks for stopping by!"
     end
@@ -68,12 +65,12 @@ class CLI
     end
     def self.return_menu
         puts "What would you like next?"
-        CLI.menu
+        self.menu
     end
     def self.welcome
         puts "Hello! Feeling hungry?"
         puts "Find a meal by either regions or categories."
         puts "If you can't decide I'll get you a random meal!"
-        CLI.menu
+        self.menu
     end
 end

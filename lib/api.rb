@@ -1,6 +1,4 @@
-#require_relative '../environment'
 class API
-    
     def self.by_category(category)
         meals_url = "https://www.themealdb.com/api/json/v1/1/filter.php?c=#{category}"
         meals_uri = URI(meals_url)
@@ -27,25 +25,8 @@ class API
         response = Net::HTTP.get(meal_uri)
         meal_hash = JSON.parse(response)
         meal_array = meal_hash["meals"]
-            meal_array.each do |meal|
-                if meal["strSource"] == ""
-                    link = "Sorry, there isn't a site for this meal."
-                elsif meal["strSource"] == nil
-                    link = "Sorry, there isn't a site for this meal."
-                else
-                meal_site = meal["strSource"]
-                link = URI(meal_site)
-                end
-                
-                if meal["strYoutube"] == ""
-                    video = "Sorry, there isn't a video for this meal."
-                elsif meal["strYoutube"] == nil
-                    video = "Sorry, there isn't a video for this meal."
-                else
-                meal_video = meal["strYoutube"]
-                video = URI(meal_video)
-                end      
-                Meals.new(name: meal["strMeal"], category: meal["strCategory"], region: meal["strArea"], ref: link, video: video)
+            meal_array.each do |meal|   
+                Meals.new(name: meal["strMeal"], category: meal["strCategory"], region: meal["strArea"], ref: meal["strSource"], video: meal["strYoutube"])
         end
     end
     def self.random_meal
@@ -55,34 +36,9 @@ class API
             random_hash = JSON.parse(random_response)
             array_meals = random_hash["meals"]
             array_meals.each do |meal|
-                if meal["strSource"] == ""
-                    link = "Sorry, there isn't a site for this meal."
-                elsif meal["strSource"] == nil
-                    link = "Sorry, there isn't a site for this meal."
-                else
-                meal_site = meal["strSource"]
-                link = URI(meal_site)
-                end
-                
-                if meal["strYoutube"] == ""
-                    video = "Sorry, there isn't a video for this meal."
-                elsif meal["strYoutube"] == nil
-                    video = "Sorry, there isn't a video for this meal."
-                else
-                meal_video = meal["strYoutube"]
-                video = URI(meal_video)
-                end 
-                Meals.new(name: meal["strMeal"], category: meal["strCategory"], region: meal["strArea"], ref: link, video: video)
+                Meals.new(name: meal["strMeal"], category: meal["strCategory"], region: meal["strArea"], ref: meal["strSource"], video: meal["strYoutube"])
             end
     end 
-    def self.valid?(string)
-        if string == ""
-            false
-        elsif string == nil
-            false
-        else true
-        end
-    end
     #binding.pry
 end
 
