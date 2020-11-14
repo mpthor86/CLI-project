@@ -24,12 +24,16 @@ class API
             meal_array.each do |meal|
                 if meal["strSource"] == ""
                     link = "Sorry, there isn't a site for this meal."
+                elsif meal["strSource"] == nil
+                    link = "Sorry, there isn't a site for this meal."
                 else
                 meal_site = meal["strSource"]
                 link = URI(meal_site)
                 end
                 
                 if meal["strYoutube"] == ""
+                    video = "Sorry, there isn't a video for this meal."
+                elsif meal["strYoutube"] == nil
                     video = "Sorry, there isn't a video for this meal."
                 else
                 meal_video = meal["strYoutube"]

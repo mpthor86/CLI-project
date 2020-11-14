@@ -21,7 +21,8 @@ class CLI
                 CLI.show_regions
             elsif input == "3"
                 Meals.random
-            else CLI.wrong_answer
+            else input != 1..3
+                CLI.wrong_answer
            #Meals.all.each_with_index do |cat, index|
            #    puts "#{index +1}: #{cat}"
            #end
@@ -44,7 +45,6 @@ class CLI
 
     def self.wrong_answer
         puts "I'm sorry thats not an option, please choose from the list."
-        puts "Please choose a category below:"
         puts "1. Meals by Category"
         puts "2. Meals by Region"
         puts "3. Can't decide? I'll help you."
