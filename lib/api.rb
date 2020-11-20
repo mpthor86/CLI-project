@@ -1,4 +1,19 @@
 class API
+    def self.start
+        category_url = "https://www.themealdb.com/api/json/v1/1/list.php?c=list"
+        category_uri = URI(category_url)
+        category_response = Net::HTTP.get(category_uri)
+            category_hash = JSON.parse(category_response)
+            category_array = category_hash["meals"]
+                category_array.map {|hash| CLI.categories << hash["strCategory"]}
+
+        region_url = "https://www.themealdb.com/api/json/v1/1/list.php?a=list"
+        region_uri = URI(region_url)
+        region_response = Net::HTTP.get(region_uri)
+                region_hash = JSON.parse(region_response)
+                region_array = region_hash["meals"]
+                region_array.each {|hash| CLI.regions << hash["strArea"]}
+    end
     def self.by_category(category)
         meals_url = "https://www.themealdb.com/api/json/v1/1/filter.php?c=#{category}"
         meals_uri = URI(meals_url)
