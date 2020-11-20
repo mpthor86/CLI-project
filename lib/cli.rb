@@ -1,6 +1,6 @@
 class CLI
-    @@categories = ["Beef", "Pork", "Seafood", "Breakfast", "Dessert", "Vegan"]
-    @@regions = ["American", "Chinese", "Egyptian", "Jamaican", "Mexican", "Italian"]
+    @@categories = []
+    @@regions = []
 
     def self.menu
         puts "MAIN MENU"
@@ -30,29 +30,29 @@ class CLI
         @@regions
     end
     def self.show_regions
-        puts "Please choose a region to find a Meal."
-        self.regions.each_with_index {|region, index| puts"#{index + 1}: #{region}"}
-        puts "7. Return to Main Menu"
+        puts "Please choose a region:"
+        self.regions.each_with_index {|obj, index| puts"#{index + 1}: #{obj}"}
+        puts "Type Exit to Return to MAIN MENU"
         input = gets.strip
-        if input.to_i - 1 < self.regions.count
+        if input == "Exit"
+            self.menu
+        elsif input.to_i - 1 < self.regions.count
             region = self.regions[input.to_i - 1]
             Meals.by_region(region)
-        elsif input == "7"
-            self.menu
         else self.wrong_answer
             self.show_regions
         end
     end
     def self.show_categories
-        puts "Please choose a Meal category below:"
-        self.categories.each_with_index {|category, index| puts "#{index + 1}: #{category}"}
-        puts "7. Return to Main Menu"
+        puts "Please choose a category:"
+        self.categories.each_with_index {|obj, index| puts "#{index + 1}: #{obj}"}
+        puts"Type Exit to Return to MAIN MENU"
         input = gets.strip
-        if input.to_i - 1 < self.categories.count
+        if input == "Exit"
+            self.menu
+        elsif input.to_i - 1 < self.categories.count
         category = self.categories[input.to_i - 1]
         Meals.by_category(category)
-        elsif input == "7"
-            self.menu
         else self.wrong_answer
             self.show_categories
         end
